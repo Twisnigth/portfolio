@@ -79,7 +79,7 @@ main {
 }
 
 .dev:hover {
-    transform: scale(1.2); /* Augmente la taille à 120% au survol */
+    transform: scale(1.2);
 }
 
 

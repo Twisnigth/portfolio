@@ -53,14 +53,14 @@ header {
 }
 
 main {
-    padding-top: 80px; /* Ajuste la marge supérieure pour être sous l'en-tête */
+    padding-top: 80px;
     text-align: center;
 }
 
 .welcome-message {
     font-size: 32px;
     color: #cccccc;
-    margin-top: 20px; /* Ajoute un espace sous l'en-tête */
+    margin-top: 20px;
 }
 
 .contact-form {
