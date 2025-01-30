@@ -19,4 +19,168 @@
   </div>
 </header>
 </body>
+<footer>
+  <div class="memory-game-container">
+    <div class="container" id="gameBoard"></div>
+    <div id="endMessage">Bravo ! Vous avez gagné !</div>
+    <div id="moveCount">Coups : 0</div>
+  </div>
+
+  <style>
+    :root {
+      --primary-color: #65abf8;
+      --font-size: 16px;
+    }
+
+    .memory-game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      background-color: #2c4c60;
+      color: #ffffff;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-front {
+      background-color: #2c4c60;
+    }
+
+    .card-back {
+      background-color: var(--primary-color);
+      transform: rotateY(180deg);
+    }
+
+    .card.flip .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    #endMessage {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      margin-top: 20px;
+    }
+
+    #moveCount {
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+    }
+  </style>
+
+  <script>
+    const cards = ['E', 'E', 'N', 'N', 'Z', 'Z', 'O', 'O', 'C', 'C', 'R', 'R', 'T', 'T', 'H', 'H'];
+    let shuffledCards = shuffle(cards);
+    let flippedCards = [];
+    let matchedCards = 0;
+    let moves = 0;
+
+    const gameBoard = document.getElementById('gameBoard');
+    const endMessage = document.getElementById('endMessage');
+    const moveCount = document.getElementById('moveCount');
+
+    shuffledCards.forEach((card, index) => {
+      const cardElement = document.createElement('div');
+      cardElement.classList.add('card');
+      cardElement.setAttribute('data-id', index);
+
+      const cardInner = document.createElement('div');
+      cardInner.classList.add('card-inner');
+
+      const cardFront = document.createElement('div');
+      cardFront.classList.add('card-face', 'card-front');
+      cardFront.innerHTML = 'Guess?';
+
+      const cardBack = document.createElement('div');
+      cardBack.classList.add('card-face', 'card-back');
+      cardBack.innerHTML = card;
+
+      cardInner.appendChild(cardFront);
+      cardInner.appendChild(cardBack);
+      cardElement.appendChild(cardInner);
+      gameBoard.appendChild(cardElement);
+
+      cardElement.addEventListener('click', () => flipCard(cardElement, card));
+    });
+
+    function shuffle(array) {
+      let shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function flipCard(cardElement, card) {
+      if (flippedCards.length === 2 || cardElement.classList.contains('flip')) return;
+      moves++;
+      moveCount.textContent = `Coups : ${moves}`;
+      cardElement.classList.add('flip');
+      flippedCards.push(cardElement);
+
+      if (flippedCards.length === 2) {
+        checkForMatch();
+      }
+    }
+
+    function checkForMatch() {
+      const [firstCard, secondCard] = flippedCards;
+
+      if (firstCard.querySelector('.card-back').innerHTML === secondCard.querySelector('.card-back').innerHTML) {
+        matchedCards += 2;
+        flippedCards = [];
+        if (matchedCards === cards.length) {
+          setTimeout(() => {
+            endMessage.style.display = 'block';
+          }, 500);
+        }
+      } else {
+        setTimeout(() => {
+          firstCard.classList.remove('flip');
+          secondCard.classList.remove('flip');
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+  </script>
+</footer>
 </html>

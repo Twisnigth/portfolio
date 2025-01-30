@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -54,14 +55,14 @@ header {
 }
 
 main {
-    padding-top: 80px; /* Ajuste la marge supérieure pour être sous l'en-tête */
+    padding-top: 80px;
     text-align: center;
 }
 
 .welcome-message {
     font-size: 32px;
     color: #cccccc;
-    margin-top: 20px; /* Ajoute un espace sous l'en-tête */
+    margin-top: 20px;
 }
 
 .intro {
@@ -69,19 +70,19 @@ main {
     font-size: 20px;
     color: #cccccc;
 }
+
 .dev {
     margin-top: 80px;
     width: 200px;
     height: 200px;
     border-radius: 50%;
     margin-left: 80px;
-    transition: transform 0.3s ease; /* Transition pour un effet fluide */
+    transition: transform 0.3s ease;
 }
 
 .dev:hover {
     transform: scale(1.2);
 }
-
 
 body::before {
     content: "";
@@ -100,4 +101,57 @@ body::before {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .right a {
+        width: 100%;
+        text-align: left;
+        padding: 10px;
+    }
+
+    .dev {
+        margin-left: 0;
+        margin-top: 40px;
+    }
+
+    .welcome-message {
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left p {
+        font-size: 20px;
+    }
+
+    .right a {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .welcome-message {
+        font-size: 28px;
+        margin-top: 120px;
+    }
+
+    .intro {
+        font-size: 18px;
+    }
+
+    .dev {
+        width: 150px;
+        height: 150px;
+    }
 }
